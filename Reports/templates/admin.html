@@ -184,7 +184,7 @@
           <div class="card-header py-3">
             <h5 class="mb-0 text-center"><strong>Reports Visualization</strong></h5>
           </div>
-          <form action="{% url 'graph' %}" method="post">
+          <form action="{% url 'home' %}" method="post">
             {% csrf_token %}
             <select class="form-select" multiple name="listcolumns">
               <option selected>select columns</option>
@@ -199,12 +199,16 @@
           <div class="card-body">
             <div class="row">
               {% autoescape off %}
+              {% if plot_div %}
               <div class="col-sm-6">
                 {{ plot_div }}
               </div>
+              {% endif %}
+              {% if bar_div %}
               <div class="col-sm-6">
-                {{ pie_div }}
+                {{ bar_div }}
               </div>
+              {% endif %}
               {% endautoescape %}
             </div>
             

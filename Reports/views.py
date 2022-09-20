@@ -26,23 +26,40 @@ mycursor = mydb.cursor()
 '''
 
 def home(request):
+    dataset=pd.read_csv("static\R_U_Dataset.csv")
+    datacolumns=dataset.columns
+    print("datacolumns",datacolumns)
+    if request.method=="POST":
+           data=request.POST.getlist('listcolumns')
+           for column in data:
+                      if column=="sentiment":
+                                 counts=dataset[column].value_counts()
+           Pos=counts['Positive']
+           Neg=counts['Negative']
+           print("Neg",Neg)
+           Neu=counts['Neutral']
+           x=['Positive','Negative','Neutral']
+           y=[Pos,Neg,Neu]
+           fig = go.Bar(x=x, y=y,name="Sentiment Analysis",marker=dict(color='green'))
+           layout1 = {
+               'title': 'Sentiment Analysis',
+                'xaxis_title': 'labels',
+                'yaxis_title': 'values',
+                'height': 420,
+             'width': 560,
+           }
+           bar_div=plot({'data':fig,'layout': layout1},output_type='div')
+           return render(request, 'admin.html',context={'bar_div':bar_div})
     """ 
     View demonstrating how to display a graph object
     on a web page with Plotly. 
-    """
+ 
     data=pd.read_csv("static\R_U_Dataset.csv")
     datacolumns=data.columns
     print("datacolumns",datacolumns)
     #df=pd.DataFrame(df)
-    counts=data.sentiment.value_counts()
-    Pos=counts['Positive']
-
-    Neg=counts['Negative']
-    print("Neg",Neg)
-    Neu=counts['Neutral']
-    x=['Positive','Negative','Neutral']
-    y=[Pos,Neg,Neu]
-    fig = go.Bar(x=x, y=y,name="Sentiment Analysis",marker=dict(color='green'))
+    """
+    
         #df=pd.DataFrame(data)
     #fig = px.bar(x=Positive, y=Negative,z=Neutral)
     # Generating some data for plots.
@@ -84,26 +101,29 @@ def home(request):
         'height': 420,
         'width': 560,
     }
-    layout1 = {
-        'title': 'Sentiment Analysis',
-        'xaxis_title': 'labels',
-        'yaxis_title': 'values',
-        'height': 420,
-        'width': 560,
-    }
+
 
     # Getting HTML needed to render the plot.
     plot_div = plot({'data': graphs, 'layout': layout}, 
                     output_type='div')
-    print("plot_div",fig)
-    pie_div=plot({'data':fig,'layout': layout1},output_type='div')
+
  
-    return render(request, 'admin.html',context={'plot_div':plot_div,'pie_div':pie_div,'datacolumns':datacolumns})
+    return render(request, 'admin.html',context={'plot_div':plot_div,'datacolumns':datacolumns})
+
+
+
 def Graph(request):
     data=request.POST.getlist('listcolumns')
     dataset=pd.read_csv("static\R_U_Dataset.csv")
     for column in data:
-        c=dataset[column].value_counts()
-        print(column,c)
+        if column=="sentiment":
+            counts=dataset[column].value_counts()
+    counts=Pos=counts['Positive']
 
+    Neg=counts['Negative']
+    print("Neg",Neg)
+    Neu=counts['Neutral']
+    x=['Positive','Negative','Neutral']
+    y=[Pos,Neg,Neu]
+    
     return render(request, 'base.html',context={})
