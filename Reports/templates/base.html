@@ -1,2 +1,25 @@
+<div class="row">
+        <form action="{% url 'home' %}" method="post">
+            {% csrf_token %}
 
-<h3>Graph Request:</h3>
+
+    <div class="col-sm-5">
+      <label for="startDate">Start Date:</label>
+      <input id="startDate" class="form-control" type="date" name="startDate" />
+    </div>
+
+
+    <div class="col-sm-5">
+      <label for="startDate">End Date:</label>
+      <input id="endDate" class="form-control" type="date" name="endDate" />
+    </div
+
+
+    <div class="col-sm-2">
+    <input type="submit" class="capital-button btn btn-info" value="Apply" >
+    </div>
+
+
+</form>
+</div>
+    

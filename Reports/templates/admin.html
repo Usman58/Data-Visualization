@@ -13,10 +13,12 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" />
   <!-- MDB -->
   <!-- CSS only -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+</head>
 
   <!--<link rel="stylesheet" href="css/mdb.min.css" />-->
   <link href="{% static 'css/mdb.min.css' %}" rel="stylesheet">
+  <link href="{% static 'css/main.css' %}" rel="stylesheet">
   <!-- Custom styles -->
   <!--<link rel="stylesheet" href="css/admin.css" />-->
   <link href="{% static 'css/admin.css' %}" rel="stylesheet">
@@ -184,34 +186,71 @@
           <div class="card-header py-3">
             <h5 class="mb-0 text-center"><strong>Reports Visualization</strong></h5>
           </div>
+          
+          <div class="row p-4">
+            <form class="form-inline justify-content-between" action="{% url 'home' %}" method="post">
+                {% csrf_token %}
+    
+    
+        <div class="col-sm-5">
+          <label for="startDate">From:</label>
+          <input id="startDate" class="form-control" type="date" name="startDate" />
+        </div>
+    
+    
+        <div class="col-sm-5">
+          <label for="startDate">To:</label>
+          <input id="endDate" class="form-control" type="date" name="endDate" />
+        </div
+    
+    
+        <div class="col-sm-2">
+        <input type="submit" class="capital-button btn btn-info mt-4" value="Apply" >
+        </div>
+    
+    
+    </form>
+    </div>
+
+
+      </div>
+          {% if datacolumns|length > 0 %}
+          <div class="card">
+            <div class="card-header py-3">
+              <p class="text-info">Please select sentiment from the  list:</p>
           <form action="{% url 'home' %}" method="post">
             {% csrf_token %}
-            <select class="form-select" multiple name="listcolumns">
-              <option selected>select columns</option>
+            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" multiple name="listcolumns" required>
               {% for column in datacolumns %}
               <option value="{{column}}">{{column}}</option>
               {% endfor %}
             </select>
-            <input type="submit" value="OK">
+            <input type="submit" class="btn btn-info" value="OK">
         </form>
-
+      </div>
+      </div>
+        {% endif %}
           </div>
+          <div class="card">
           <div class="card-body">
-            <div class="row">
+            <div class="row ">
               {% autoescape off %}
-              {% if plot_div %}
-              <div class="col-sm-6">
-                {{ plot_div }}
-              </div>
-              {% endif %}
               {% if bar_div %}
               <div class="col-sm-6">
                 {{ bar_div }}
               </div>
+              <div class="col-sm-6">
+                {{ pie_div }}
+              </div>
+              {% endif %}
+              {% if Tweets_div %}
+              <div class="col-sm-6">
+                {{ Tweets_div }}
+              </div>
               {% endif %}
               {% endautoescape %}
             </div>
-            
+          </div>
              
            
            
@@ -625,10 +664,11 @@
   
   <!-- Custom scripts -->
   <!-- JavaScript Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="{% static 'js/index.js' %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
   <!--<script type="text/javascript" src="js/admin.js"></script>-->
   
-
+<script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
 </body>
 
 </html>
