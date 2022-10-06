@@ -18,7 +18,7 @@ import pyodbc
 
 def ServerConnect(query):
     con = pyodbc.connect('Driver={SQL Server};'
-                      'Server=LHR-TCH-USMAN;'
+                      'Server=LHR-TECH-INTERN;'
                       'Trusted_Connection=yes;')
     df = pd.read_sql(query, con)
     return df
@@ -28,7 +28,7 @@ def ServerConnect(query):
 def DBConnect(query,dbName):
     DBName=f"Database={dbName}"
     con = pyodbc.connect('Driver={SQL Server};'
-                      'Server=LHR-TCH-USMAN;'
+                      'Server=LHR-TECH-INTERN;'
                       f"{DBName};"
                       'Trusted_Connection=yes;')
 
