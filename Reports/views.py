@@ -43,44 +43,15 @@ dbName=None
 def home(request):
     db_List = ServerConnect('SELECT * FROM sys.databases')
     db_List=db_List['name']
-
-   
     if request.method=="POST":
         db_List=None
         dbName=request.POST['dbName']
         tablesList=DBConnect('SELECT * FROM information_schema.tables',dbName)
         tablesList=tablesList['TABLE_NAME']
         selected_db=dbName
-        '''
-        x=['Created Date']
-        y=[df.shape[0]]
-        fig1 = go.Bar(x=x, y=y,name="Sentiment Analysis",marker_color=['green'])
-        #fig2 = go.Pie(labels=x, values=y,name="Sentiment Analysis",marker=dict(colors=['green']))
-        #fig2 = px.pie(values=y, names=x)
-        layout = {
-            'title': 'Data From Selected Dates',
-            'xaxis_title': 'Dates',
-            'yaxis_title': 'values',
-            'height': 400,
-            'width': 500,
-        }
-        bar_div=plot({'data':fig1,'layout': layout},output_type='div')
-        '''
-        #pie_div=plot({'data':fig2,'layout': layout},output_type='div')
-        
         context={'tablesList':tablesList,'db_List':db_List,'selected_db':selected_db}
         return render(request, 'admin.html',context)
-    x=['Total Posts']
-    y=[1000]
-    layout = {
-               'title': 'Tweeter Posts Count',
-                'xaxis_title': 'Posts',
-                'yaxis_title': 'count',
-                'height': 400,
-                'width': 500,
-           }
-    fig = go.Bar(x=x, y=y,name="Tweeter Posts Count",marker_color=['green'])
-    Tweets_div=plot({'data':fig,'layout': layout},output_type='div')
+    
     context={'db_List':db_List}
     return render(request, 'admin.html',context)
 
@@ -107,14 +78,29 @@ def SummarizeData(request):
         #summarize_name=request.POST['name']
         #print("summarize_name",summarize_name)
         df=DBConnect(f'SELECT * FROM {tableName}',dbName)
+        x=[]
+        y=[]
+        layout = {
+               'title': f'{tableName}',
+                'xaxis_title': 'x',
+                'yaxis_title': 'x',
+                'height': 400,
+                'width': 500,
+           }
         Table=df.describe()
+        for index, row in Table.iterrows():
+            x.append(index)
+            for cell in row:
+                y.append(cell)
+                 
+        print("x===>",x)         
+        print("y===>",y)     
         print("describe",Table)
-        #df=df.head()
-        #df=df.to_dict()
-        #df["Name"]=summarize_name
-        context={'Table':Table}
-        return render(request, 'Summarize.html',context)
-    return render(request, 'Summarize.html')   
+        fig = go.Bar(x=x, y=y,name=f"{tableName}",marker_color='green')
+        bar_div=plot({'data':fig,'layout': layout},output_type='div')
+        context={'Table':Table,'bar_div':bar_div}
+        return render(request,'SummarizeDashboard.html',context)
+    return render(request, 'SummarizeDashboard.html')   
         
 
     

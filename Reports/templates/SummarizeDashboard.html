@@ -39,6 +39,19 @@
                 </tbody>
             </table>
         </div>
+        {% if bar_div %}
+        <div class="card">
+          <div class="card-body">
+            <div class="row ">
+              {% autoescape off %}
+              
+              <div class="col-sm-6">
+                {{ bar_div }}
+              </div>
+              {% endautoescape %}
+            </div>
+          </div>
+          {% endif %}
 
       </section>
     </div>
