@@ -11,9 +11,9 @@ urlpatterns = [
     path('jointables/',views.JoinTables,name="jointables"),
     path('selectedtables/',views.SelectedTables,name="selectedtables"),
     path('joinresult/',views.JoinResult,name="joinresult"),
-    path('filters/',views.Filters,name="filters"),
-    path('filtersData/',views.FiltersData,name="filtersdata"),
-    
+    path('filters/',views.FiltersPage,name="filters"),
+    path('filtersDataByDate/',views.FiltersDataByDate,name="filtersdatabydate"),
+    path('filtersDataByColumn/',views.FiltersByColumn,name="filtersbycolumn"),
 ]
  
 

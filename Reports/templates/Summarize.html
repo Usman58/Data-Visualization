@@ -17,21 +17,20 @@
             <table class="table table-striped">
                 <thead>
                   <tr>
+                    <th>summarize</td>
                     {% for col in Table.columns %}
-                      <td>
+                      <th>
                         {{col}}
-                      </td>
+                      </th>
                     {% endfor %}
                   </tr>
                 </thead>
                 <tbody>
                 {% for index, row in Table.iterrows %}
                 <tr>
-                  <td>{{index}}</td>
+                  <th>{{index}}</th>
                   {% for cell in row %}
-                  
                   <td>
-                   
                     {{cell}}
                   </td>
                   {% endfor %}

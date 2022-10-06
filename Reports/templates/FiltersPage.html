@@ -13,24 +13,29 @@
             <h6>{{table}}</h6>
           </div>
           <div class="row p-4">
-          <div class="col-sm-4">
             {% if columns|length > 0 %}
+          <div class="col-sm-4">
+           
             <h6 class="text-center">Filter By Column:</h6>
-            <form action="{% url 'get-data' %}" method="post" style="margin-top:30px">
+            <form action="{% url 'filtersbycolumn' %}" method="post" style="margin-top:30px">
               {% csrf_token %}
-              <select class="form-select form-select-md mb-3" aria-label=".form-select-lg example" name="tableName" required>
+              <select class="form-select form-select-md mb-3" aria-label=".form-select-lg example" name="column" required>
                 {% for column in columns %}
                 <option value="{{column}}">{{column}}</option>
                 {% endfor %}
               </select>
               <input type="hidden"  value="{{db}}" name="db">
+              <input type="hidden"  value="{{table}}" name="table">
+              <input type="submit" class="capital-button btn btn-info mt-4" value="Apply">
           </form>
-          {% endif %}
+          
           </div>
+          {% endif %}
           <div class="col-sm-8">
-            <h6 class="text-center">Filter By Dates and Time:</h6>
-            <form  action="{% url 'filtersdata' %}" method="post">
+            <h6 >Filter By Dates and Time:</h6>
+            <form  action="{% url 'filtersdatabydate' %}" method="post">
               <input type="hidden"  value="{{db}}" name="db">
+              <input type="hidden"  value="{{table}}" name="table">
               {% csrf_token %}
               <div class="row">
                 <div class="col-sm-5">
