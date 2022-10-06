@@ -40,8 +40,7 @@
             </table>
         </div>
         {% if Table.columns|length > 0 %}
-        <hr>
-      <div class="card" id="coldiv">
+      <div class="card {% if display %} d-none {% endif %}">
         <div class="card-header py-3">
           <p class="text-info">Please select column from the  list:</p>
 

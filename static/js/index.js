@@ -1,10 +1,4 @@
-$(document).ready(function () {
-  $("#hide").click(function()
-  {
-    $("#coldiv").hide();
 
-    });
-});
 /*
 $(document).ready(function () {
   $("#post-form").on("submit", function (event) {
