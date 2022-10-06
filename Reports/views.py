@@ -96,9 +96,9 @@ def VisualizeData(request):
         df=DBConnect(f'SELECT {column} FROM {tableName}',dbName)
         Table=df.describe()
         layout = {
-               'title': f'{column}',
-                'xaxis_title': 'x',
-                'yaxis_title': 'x',
+               'title': f'{tableName}',
+                'xaxis_title': f'summarize of {column}',
+                'yaxis_title': 'Values',
                 'height': 400,
                 'width': 500,
            }
@@ -109,14 +109,12 @@ def VisualizeData(request):
             for cell in row:
                 y.append(cell)
        
-        print("x===>",x)         
-        print("y===>",y)  
-
+      
         print("describe",Table)
         fig = go.Bar(x=x, y=y,name=f"{tableName}",marker_color='green')
         bar_div=plot({'data':fig,'layout': layout},output_type='div')
 
-        context={'Table':Table,'bar_div':bar_div}
+        context={'Table':Table,'bar_div':bar_div,'display':'hide'}
         return render(request,'SummarizeDashboard.html',context)
     return render(request, 'SummarizeDashboard.html')   
         
