@@ -1,8 +1,4 @@
-
 .capital-button{
     text-transform: capitalize;
+   
 }
-
-.form-inline {  
-    display: flex;
-  }

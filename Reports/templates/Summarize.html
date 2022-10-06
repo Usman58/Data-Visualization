@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block summarize %}
+
+<main style="margin-top: 58px">
+    <div class="container pt-4">
+      <!-- Section: Main chart -->
+      <section class="mb-4">
+
+        <div class="card">
+          <div class="card-header py-3">
+            <h5 class="mb-0 text-center"><strong>Dashboard Summarize Data</strong></h5>
+            <h6>{{table}}</h6>
+          </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                  <tr>
+                    {% for col in Table.columns %}
+                      <td>
+                        {{col}}
+                      </td>
+                    {% endfor %}
+                  </tr>
+                </thead>
+                <tbody>
+                {% for index, row in Table.iterrows %}
+                <tr>
+                  <td>{{index}}</td>
+                  {% for cell in row %}
+                  
+                  <td>
+                   
+                    {{cell}}
+                  </td>
+                  {% endfor %}
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+      </section>
+    </div>
+
+</main>
+
+{% endblock summarize %}

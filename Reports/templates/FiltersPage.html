@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block Filter %}
+
+<main style="margin-top: 58px">
+    <div class="container pt-4">
+      <!-- Section: Main chart -->
+      <section class="mb-4">
+
+        <div class="card">
+          <div class="card-header py-3">
+            <h5 class="mb-0 text-center"><strong>Filters Data</strong></h5>
+            <h6>{{table}}</h6>
+          </div>
+          <div class="row p-4">
+          <div class="col-sm-4">
+            {% if columns|length > 0 %}
+            <h6 class="text-center">Filter By Column:</h6>
+            <form action="{% url 'get-data' %}" method="post" style="margin-top:30px">
+              {% csrf_token %}
+              <select class="form-select form-select-md mb-3" aria-label=".form-select-lg example" name="tableName" required>
+                {% for column in columns %}
+                <option value="{{column}}">{{column}}</option>
+                {% endfor %}
+              </select>
+              <input type="hidden"  value="{{db}}" name="db">
+          </form>
+          {% endif %}
+          </div>
+          <div class="col-sm-8">
+            <h6 class="text-center">Filter By Dates and Time:</h6>
+            <form  action="{% url 'filtersdata' %}" method="post">
+              <input type="hidden"  value="{{db}}" name="db">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-sm-5">
+                  <label for="startDate">From:</label>
+            <input id="startDate" class="form-control" type="datetime-local" name="startDate"/>
+                </div>
+                <div class="col-sm-5">
+                  <label for="startDate">To:</label>
+            <input id="endDate" class="form-control" type="datetime-local" name="endDate" />
+                </div>
+    
+                <div class="col-sm-2">
+                  <input type="submit" class="capital-button btn btn-info mt-4" value="Apply">
+                </div>
+              </div>
+              
+             
+            </form>
+          </div>
+        </div>
+         
+          
+
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                  <tr>
+                    {% for col in Table.columns %}
+                      <td>
+                        {{col}}
+                      </td>
+                    {% endfor %}
+                  </tr>
+                </thead>
+                <tbody>
+                {% for index, row in Table.iterrows %}
+                <tr>
+                  {% for cell in row %}
+                  <td>
+                    {{cell}}
+                  </td>
+                  {% endfor %}
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+      
+      </section>
+    </div>
+
+</main>
+
+{% endblock Filter %}

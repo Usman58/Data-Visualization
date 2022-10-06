@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block JoinData %}
+
+<main style="margin-top: 58px">
+    <div class="container pt-4">
+      <!-- Section: Main chart -->
+      <section class="mb-4">
+        <div class="card">
+          <div class="card-header py-3">
+            <h5 class="mb-0 text-center"><strong>Join Tables</strong></h5>
+            {% if tableName and tablesList|length > 0 %}
+            <div class="row mt-3">
+                <div class="col-sm-6"><h6>{{tableName}}</h6></div>
+                <div class="col-sm-6">
+                  <form action="{% url 'selectedtables' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="table1" value="{{tableName}}">
+                    <input type="hidden" name="db" value="{{db}}">
+                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="table2" required onchange="this.form.submit()">
+                      {% for table in tablesList %}
+                      <option value="{{table}}">{{table}}</option>
+                      {% endfor %}
+                    </select>
+                </form>
+                </div>
+              </div>
+              {% endif %}
+              {% if table2|length > 0 %}
+              <form action="{% url 'joinresult' %}" method="post">
+                <input type="hidden" name="db" value="{{db}}">
+              <div class="row mt-3">
+                <div class="col-sm-6">
+                  <h6>{{table1Name}}</h6>
+                  <input type="hidden" name="table1Name" value="{{table1Name}}">
+                    {% csrf_token %}
+                    
+                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="table1coulmn" required>
+                      {% for coulmn in table1 %}
+                      <option value="{{coulmn}}">{{coulmn}}</option>
+                      {% endfor %}
+                    </select>
+         
+                </div>
+                <div class="col-sm-6">
+                  <h6>{{table2Name}}</h6>
+             
+                  <input type="hidden" name="table2Name" value="{{table2Name}}">
+                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="table2coulmn" required>
+                      {% for coulmn in table2 %}
+                      <option value="{{coulmn}}">{{coulmn}}</option>
+                      {% endfor %}
+                    </select>
+
+                </div>
+                <input type="submit" class="btn btn-info summarize-btn" value="OK">
+              </div>
+  
+            </form>
+             {% endif %}
+          </div>
+
+         </div>
+         <div class="table-responsive">
+          <table class="table table-striped">
+              <thead>
+                <tr>
+                  {% for col in Table.columns %}
+                    <td>
+                      {{col}}
+                    </td>
+                  {% endfor %}
+                </tr>
+              </thead>
+              <tbody>
+              {% for index, row in Table.iterrows %}
+              <tr>
+                {% for cell in row %}
+                <td>
+                  {{cell}}
+                </td>
+                {% endfor %}
+              </tr>
+              {% endfor %}
+              </tbody>
+          </table>
+      </div>
+      </section>
+    </div>
+
+</main>
+
+{% endblock JoinData %}
