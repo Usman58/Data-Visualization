@@ -166,12 +166,13 @@ def JoinResult(request):
 def FiltersPage(request):
     table=request.POST['tableName']
     dbName=request.POST['db']
-    #df=DBConnect(f'SELECT * FROM {table}',dbName)
-    #columns=df.columns
-    context={'table':table,'db':dbName}
+    df=DBConnect(f'SELECT * FROM {table}',dbName)
+    columns=df.columns
+    context={'table':table,'db':dbName,'columns':columns}
     return render(request, 'FiltersPage.html',context)
     
 def FiltersDataByDate(request):
+        column=request.POST['column']
         From=request.POST['startDate']
         From=pd.to_datetime(From)
         To=request.POST['endDate']
@@ -179,23 +180,13 @@ def FiltersDataByDate(request):
         table=request.POST['table']
         To=pd.to_datetime(To)
         print(From,To)
-        query = f"SELECT * FROM {table} where CreatedDate >=  '{From}' AND CreatedDate <= '{To}' "
+        query = f"SELECT {column} FROM {table} where CreatedDate >=  '{From}' AND CreatedDate <= '{To}' "
         print(query)
         df=DBConnect(query,dbName)
         df.fillna("-",inplace=True)
         columns=df.columns
         Table=df.head(5)
-        context={'Table':Table,'columns':columns,'table':table}
+        context={'Table':Table,'columns':columns,'table':table,'db':dbName}
         return render(request, 'FiltersPage.html',context)
-def FiltersByColumn(request):
-        column=request.POST['column']
-        dbName=request.POST['db']
-        table=request.POST['table']
-        print("table:", table)
-        query = f"SELECT {column} FROM {table}"
-        print(query)
-        df=DBConnect(query,dbName)
-        df.fillna("-",inplace=True)
-        Table=df.head(5)
-        context={'Table':Table}
-        return render(request, 'FiltersPage.html',context)
+
+ 

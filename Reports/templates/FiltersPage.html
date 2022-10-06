@@ -12,49 +12,50 @@
             <h5 class="mb-0 text-center"><strong>Filters Data</strong></h5>
             <h6>{{table}}</h6>
           </div>
-          <div class="row p-4">
-            {% if columns|length > 0 %}
-          <div class="col-sm-4">
-           
-            <h6 class="text-center">Filter By Column:</h6>
-            <form action="{% url 'filtersbycolumn' %}" method="post" style="margin-top:30px">
-              {% csrf_token %}
-              <select class="form-select form-select-md mb-3" aria-label=".form-select-lg example" name="column" required>
-                {% for column in columns %}
-                <option value="{{column}}">{{column}}</option>
-                {% endfor %}
-              </select>
-              <input type="hidden"  value="{{db}}" name="db">
-              <input type="hidden"  value="{{table}}" name="table">
-              <input type="submit" class="capital-button btn btn-info mt-4" value="Apply">
-          </form>
-          
-          </div>
-          {% endif %}
+
+          <form  action="{% url 'filtersdatabydate' %}" method="post" >
+          <div class="row p-5">
           <div class="col-sm-8">
-            <h6 >Filter By Dates and Time:</h6>
-            <form  action="{% url 'filtersdatabydate' %}" method="post">
+            <h6 class="text-center">Select Dates and Time:</h6>
               <input type="hidden"  value="{{db}}" name="db">
               <input type="hidden"  value="{{table}}" name="table">
               {% csrf_token %}
               <div class="row">
-                <div class="col-sm-5">
+                <div class="col-sm-6">
                   <label for="startDate">From:</label>
-            <input id="startDate" class="form-control" type="datetime-local" name="startDate"/>
+            <input id="startDate" class="form-control" type="datetime-local" name="startDate" required/>
                 </div>
-                <div class="col-sm-5">
+                <div class="col-sm-6">
                   <label for="startDate">To:</label>
-            <input id="endDate" class="form-control" type="datetime-local" name="endDate" />
-                </div>
-    
-                <div class="col-sm-2">
-                  <input type="submit" class="capital-button btn btn-info mt-4" value="Apply">
+            <input id="endDate" class="form-control" type="datetime-local" name="endDate" required />
                 </div>
               </div>
               
-             
-            </form>
           </div>
+          {% if columns|length > 0 %}
+          <div class="col-sm-4" >
+           
+            <h6 class="text-center">Filter By Column:</h6>
+            <div class="row" style="margin-top:30px">
+              <div class="col-sm-10">
+                <select class="form-select form-select-md mb-3" aria-label=".form-select-lg example" name="column">
+                  <option value="*" selected>All Columns</option>
+                  {% for column in columns %}
+                  <option value="{{column}}">{{column}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-sm-2">
+                <input type="submit" class="capital-button btn btn-info" value="Apply">
+              </div>
+
+            </div>
+           
+          </form>
+          
+          </div>
+          {% endif %}
+
         </div>
          
           
@@ -84,7 +85,7 @@
                 </tbody>
             </table>
         </div>
-      
+      </form>
       </section>
     </div>
 
