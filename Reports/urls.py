@@ -12,6 +12,8 @@ urlpatterns = [
     path('joinresult/',views.JoinResult,name="joinresult"),
     path('filters/',views.FiltersPage,name="filters"),
     path('filtersDataByDate/',views.FiltersDataByDate,name="filtersdatabydate"),
+    path('visualize/',views.VisualizeData,name="visualize"),
+    
 ]
  
 

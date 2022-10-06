@@ -78,31 +78,48 @@ def SummarizeData(request):
         #summarize_name=request.POST['name']
         #print("summarize_name",summarize_name)
         df=DBConnect(f'SELECT * FROM {tableName}',dbName)
-        x=[]
-        y=[]
+        Table=df.describe()
+        context={'Table':Table,'table':tableName,'db':dbName}
+        return render(request,'SummarizeDashboard.html',context)
+    return render(request, 'SummarizeDashboard.html')   
+        
+def VisualizeData(request):
+    print("Visualizing data...")
+    if request.method=="POST":
+        dbName=request.POST['db']
+        column=request.POST['column']
+        print("dbName",dbName)
+        tableName=request.POST['table']
+        print("tableName",tableName)
+        #summarize_name=request.POST['name']
+        #print("summarize_name",summarize_name)
+        df=DBConnect(f'SELECT {column} FROM {tableName}',dbName)
+        Table=df.describe()
         layout = {
-               'title': f'{tableName}',
+               'title': f'{column}',
                 'xaxis_title': 'x',
                 'yaxis_title': 'x',
                 'height': 400,
                 'width': 500,
            }
-        Table=df.describe()
+        x=[]
+        y=[]
         for index, row in Table.iterrows():
             x.append(index)
             for cell in row:
                 y.append(cell)
-                 
+       
         print("x===>",x)         
-        print("y===>",y)     
+        print("y===>",y)  
+
         print("describe",Table)
         fig = go.Bar(x=x, y=y,name=f"{tableName}",marker_color='green')
         bar_div=plot({'data':fig,'layout': layout},output_type='div')
+
         context={'Table':Table,'bar_div':bar_div}
         return render(request,'SummarizeDashboard.html',context)
     return render(request, 'SummarizeDashboard.html')   
         
-
     
 def JoinTables(request):
     if request.method=="POST":
