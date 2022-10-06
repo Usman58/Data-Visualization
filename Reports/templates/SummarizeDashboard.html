@@ -39,6 +39,29 @@
                 </tbody>
             </table>
         </div>
+        {% if Table.columns|length > 0 %}
+        <hr>
+      <div class="card" id="coldiv">
+        <div class="card-header py-3">
+          <p class="text-info">Please select column from the  list:</p>
+
+      <form action="{% url 'visualize' %}" method="post" id="col-form">
+        {% csrf_token %}
+        <input type="hidden"  value="{{db}}" name="db">
+        <input type="hidden"  value="{{table}}" name="table">
+        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="column" required>
+          {% for column in Table.columns %}
+          <option value="{{column}}">{{column}}</option>
+          {% endfor %}
+        </select>
+        <input type="submit" class="btn btn-info" value="Visualize" id="hide">
+    </form>
+
+      </div>
+  </div>
+<hr>
+    {% endif %}
+
         {% if bar_div %}
         <div class="card">
           <div class="card-body">
